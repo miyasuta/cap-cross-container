@@ -1,0 +1,14 @@
+{
+    "master-partners-db": {
+        "object_owner": {
+            "container_roles": [
+                "MASTER_PARTNERS_EXTERNAL_ACCESS_G#"
+            ]
+        },
+        "application_user": {
+            "container_roles": [
+                "MASTER_PARTNERS_EXTERNAL_ACCESS"
+            ]
+        }
+    }
+}

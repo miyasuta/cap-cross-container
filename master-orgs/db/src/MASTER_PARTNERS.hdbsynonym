@@ -1,0 +1,7 @@
+{
+    "MASTER_ORGS_CUSTOMERS": {
+        "target": {
+            "object": "MASTER_PARTNERS_CUSTOMERS"
+        }
+    }
+}

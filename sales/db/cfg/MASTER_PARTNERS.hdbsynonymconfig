@@ -1,0 +1,8 @@
+{
+    "SALES_CUSTOMERS": {
+        "target": {
+            "object": "MASTER_PARTNERS_CUSTOMERS",
+            "schema.configure": "master-partners-db/schema"
+        }
+    }
+}

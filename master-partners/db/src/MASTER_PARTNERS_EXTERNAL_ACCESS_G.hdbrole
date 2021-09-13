@@ -1,0 +1,13 @@
+{
+    "role": {
+        "name": "MASTER_PARTNERS_EXTERNAL_ACCESS_G#",
+        "object_privileges": [
+            { 
+                "name":"MASTER_PARTNERS_CUSTOMERS", 
+                "type":"TABLE", 
+                "privileges":[], 
+                "privileges_with_grant_option":["SELECT"]
+            }                          
+        ]
+    }
+}
