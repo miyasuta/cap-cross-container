@@ -1,0 +1,14 @@
+{
+    "cross-schema-master-partners": {
+        "object_owner": {
+            "global_roles": [
+                "genericRoleForOO"
+            ]
+        },
+        "application_user": {
+            "global_roles": [
+                "genericRoleForAP"
+            ]
+        }
+    }
+}
