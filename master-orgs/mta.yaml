@@ -24,9 +24,11 @@ modules:
    path: gen/srv
    parameters:
      buildpack: nodejs_buildpack
+     memory: 256M
+     disk-quota: 1024M      
    requires:
     # Resources extracted from CAP configuration
-    - name: master-partners-db
+    - name: master-db
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -41,12 +43,12 @@ modules:
      buildpack: nodejs_buildpack
    requires:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
-    - name: master-partners-db
+    - name: master-db
 
 
 resources:
- - name: master-partners-db
+ - name: master-db
    type: org.cloudfoundry.existing-service
    parameters:
-     service-name: master-partners-db   
+     service-name: master-db   
 

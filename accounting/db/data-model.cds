@@ -1,9 +1,13 @@
 namespace accounting;
-using { MasterPartnersService } from '../srv/external/MasterPartnersService';
 
 entity Invoices {
     key ID: Integer;
     amount: Integer;
-    customer: Association to MasterPartnersService.Customers    
+    customer: Association to Customers    
 }
 
+@cds.persistence.exists
+entity Customers {
+    key ID: Integer;
+    name: String;
+}

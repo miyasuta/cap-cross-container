@@ -24,11 +24,12 @@ modules:
    path: gen/srv
    parameters:
      buildpack: nodejs_buildpack
+     memory: 256M
+     disk-quota: 1024M      
    requires:
     # Resources extracted from CAP configuration
     - name: accounting-db
-    - name: accounting_destination
-    - name: accounting_uaa
+    - name: cross-schema-master-partners
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -44,6 +45,7 @@ modules:
    requires:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
     - name: accounting-db
+    - name: cross-schema-master-partners
 
 
 resources:
@@ -59,18 +61,10 @@ resources:
    properties:
      hdi-service-name: ${service-name}      
 
- - name: accounting_destination
-   type: org.cloudfoundry.managed-service
+ - name: cross-schema-master-partners
+   type: org.cloudfoundry.existing-service
    parameters:
-    service-plan: lite
-    service: destination
-
- - name: accounting_uaa
-   type: org.cloudfoundry.managed-service
-   parameters:
-    path: ./xs-security.json
-    service-plan: application
-    service: xsuaa
+      service-name: cross-schema-master-partners
 
 
 

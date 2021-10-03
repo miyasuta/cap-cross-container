@@ -1,8 +1,8 @@
 {
-    "SALES_CUSTOMERS": {
+    "ACCOUNTING_CUSTOMERS": {
         "target": {
             "object": "MASTER_PARTNERS_CUSTOMERS",
-            "schema.configure": "master-db/schema"
+            "schema": "_PLACEHOLDER_"
         }
     }
 }

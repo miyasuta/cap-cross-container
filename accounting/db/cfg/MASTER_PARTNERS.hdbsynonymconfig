@@ -1,0 +1,8 @@
+{
+    "ACCOUNTING_CUSTOMERS": {
+        "target": {
+            "object": "MASTER_PARTNERS_CUSTOMERS",
+            "schema.configure": "cross-schema-master-partners/schema"
+        }
+    }
+}
