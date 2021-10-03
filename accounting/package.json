@@ -48,14 +48,6 @@
     "requires": {
       "db": {
         "kind": "sql"
-      },
-      "MasterPartnersService": {
-        "kind": "odata",
-        "model": "srv\\external\\MasterPartnersService",
-        "credentials": {
-          "destination": "master-partners-srv",
-          "requestTimeout": 30000
-        }
       }
     },
     "hana": {

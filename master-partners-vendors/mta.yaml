@@ -1,9 +1,9 @@
 ## Generated mta.yaml based on template version 0.4.0
-## appName = sales
+## appName = master-partners-vendors
 ## language=nodejs; multitenant=false
 ## approuter=
 _schema-version: '3.1'
-ID: sales
+ID: master-partners-vendors
 version: 1.0.0
 description: "A simple CAP project."
 parameters:
@@ -18,17 +18,16 @@ build-parameters:
 
 modules:
  # --------------------- SERVER MODULE ------------------------
- - name: sales-srv
+ - name: master-partners-vendors-srv
  # ------------------------------------------------------------
    type: nodejs
-   path: gen/srv  
+   path: gen/srv
    parameters:
      buildpack: nodejs_buildpack
      memory: 256M
      disk-quota: 1024M      
    requires:
     # Resources extracted from CAP configuration
-    - name: sales-db
     - name: master-db
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
@@ -36,36 +35,22 @@ modules:
         srv-url: ${default-url}
 
  # -------------------- SIDECAR MODULE ------------------------
- - name: sales-db-deployer
+ - name: master-partners-vendors-db-deployer
  # ------------------------------------------------------------
    type: hdb
    path: gen/db  
    parameters:
      buildpack: nodejs_buildpack
-   properties:
-     TARGET_CONTAINER: sales-db   
    requires:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
-    - name: sales-db
     - name: master-db
 
 
 resources:
  # services extracted from CAP configuration
  # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
-# ------------------------------------------------------------
- - name: sales-db
-# ------------------------------------------------------------
-   type: com.sap.xs.hdi-container
-   parameters:
-     service: hana  # or 'hanatrial' on trial landscapes
-     service-plan: hdi-shared
-   properties:
-     hdi-service-name: ${service-name}
-
  - name: master-db
    type: org.cloudfoundry.existing-service
    parameters:
-     service-name: master-db        
-
+     service-name: master-db  
 

@@ -1,13 +1,13 @@
 {
     "cross-schema-master-partners": {
         "object_owner": {
-            "global_roles": [
-                "genericRoleForOO"
+            "container_roles": [
+                "MASTER_PARTNERS_EXTERNAL_ACCESS_G#"
             ]
         },
         "application_user": {
-            "global_roles": [
-                "genericRoleForAP"
+            "container_roles": [
+                "MASTER_PARTNERS_EXTERNAL_ACCESS"
             ]
         }
     }
