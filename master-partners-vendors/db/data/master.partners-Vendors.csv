@@ -1,4 +1,4 @@
-ID;name
-1;Company V1
-2;Company V2
-3;Company V3
+ID;name;customer_ID
+1;Company V1;1
+2;Company V2;2
+3;Company V3;3
