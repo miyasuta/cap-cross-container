@@ -2,7 +2,7 @@
     "SALES_CUSTOMERS": {
         "target": {
             "object": "MASTER_PARTNERS_CUSTOMERS",
-            "schema.configure": "master-db/schema"
+            "schema.configure": "master-db-hdi/schema"
         }
     }
 }

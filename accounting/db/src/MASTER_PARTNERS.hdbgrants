@@ -1,5 +1,5 @@
 {
-    "cross-schema-master-partners": {
+    "cross-schema-ups": {
         "object_owner": {
             "container_roles": [
                 "MASTER_PARTNERS_EXTERNAL_ACCESS_G#"

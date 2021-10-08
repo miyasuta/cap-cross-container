@@ -29,7 +29,7 @@ modules:
    requires:
     # Resources extracted from CAP configuration
     - name: sales-db
-    - name: master-db
+    # - name: master-db
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -41,13 +41,17 @@ modules:
    type: hdb
    path: gen/db  
    parameters:
-     buildpack: nodejs_buildpack
-   properties:
-     TARGET_CONTAINER: sales-db   
+     buildpack: nodejs_buildpack   
    requires:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
     - name: sales-db
+      properties: 
+        TARGET_CONTAINER: ~{hdi-service-name} 
     - name: master-db
+      group: SERVICE_REPLACEMENTS
+      properties:
+        key: master-db-hdi
+        service: ~{master-db-hdi}    
 
 
 resources:
@@ -66,6 +70,8 @@ resources:
  - name: master-db
    type: org.cloudfoundry.existing-service
    parameters:
-     service-name: master-db        
+     service-name: master-db   
+   properties:
+      master-db-hdi: ${service-name}          
 
 

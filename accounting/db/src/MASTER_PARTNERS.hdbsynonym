@@ -1,8 +1,3 @@
 {
-    "ACCOUNTING_CUSTOMERS": {
-        "target": {
-            "object": "MASTER_PARTNERS_CUSTOMERS",
-            "schema": "_PLACEHOLDER_"
-        }
-    }
+    "ACCOUNTING_CUSTOMERS": {}
 }

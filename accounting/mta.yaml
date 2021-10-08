@@ -29,7 +29,7 @@ modules:
    requires:
     # Resources extracted from CAP configuration
     - name: accounting-db
-    - name: cross-schema-master-partners
+    # - name: ups-master-db
    provides:
     - name: srv-api      # required by consumers of CAP services (e.g. approuter)
       properties:
@@ -41,12 +41,17 @@ modules:
    type: hdb
    path: gen/db  
    parameters:
-     buildpack: nodejs_buildpack 
+     buildpack: nodejs_buildpack     
    requires:
     # 'hana' and 'xsuaa' resources extracted from CAP configuration
     - name: accounting-db
-    - name: cross-schema-master-partners
-
+      properties: 
+        TARGET_CONTAINER: ~{hdi-service-name}     
+    - name: ups-master-db
+      group: SERVICE_REPLACEMENTS
+      properties:
+        key: cross-schema-ups
+        service: ~{cross-schema-ups}
 
 resources:
  # services extracted from CAP configuration
@@ -61,10 +66,12 @@ resources:
    properties:
      hdi-service-name: ${service-name}      
 
- - name: cross-schema-master-partners
+ - name: ups-master-db
    type: org.cloudfoundry.existing-service
    parameters:
-      service-name: cross-schema-master-partners
+      service-name: ups-master-db   
+   properties:
+      cross-schema-ups: ${service-name}
 
 
 
