@@ -6,16 +6,17 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^5",
+    "@sap/cds": "^7",
     "express": "^4",
-    "hdb": "^0.18.3"
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3",
+    "passport": "^0"
   },
   "devDependencies": {
-    "@sap/hdi-deploy": "^4.2.0",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5"
   },
   "scripts": {
-    "start": "cds run",
+    "start": "cds-serve",
     "start:dev": "cds watch",
     "deploy": "cf deploy mta_archives/accounting_1.0.0.mtar"
   },
@@ -46,12 +47,10 @@
   },
   "cds": {
     "requires": {
-      "db": {
-        "kind": "sql"
+      "[production]": {
+        "db": "hana",
+        "auth": "xsuaa"
       }
-    },
-    "hana": {
-      "deploy-format": "hdbtable"
     }
   }
 }

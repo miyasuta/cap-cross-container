@@ -8,49 +8,73 @@ version: 1.0.0
 description: "A simple CAP project."
 parameters:
   enable-parallel-deployments: true
-   
+
 build-parameters:
   before-all:
-   - builder: custom
-     commands:
-      - npm install --production
-      - npx -p @sap/cds-dk cds build --production
+    - builder: custom
+      commands:
+        - npm install --production
+        - npx -p @sap/cds-dk cds build --production
 
 modules:
- # --------------------- SERVER MODULE ------------------------
- - name: master-partners-vendors-srv
- # ------------------------------------------------------------
-   type: nodejs
-   path: gen/srv
-   parameters:
-     buildpack: nodejs_buildpack
-     memory: 256M
-     disk-quota: 1024M      
-   requires:
-    # Resources extracted from CAP configuration
-    - name: master-db
-   provides:
-    - name: srv-api      # required by consumers of CAP services (e.g. approuter)
-      properties:
-        srv-url: ${default-url}
+  # --------------------- SERVER MODULE ------------------------
+  - name: master-partners-vendors-srv
+    # ------------------------------------------------------------
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      memory: 256M
+      disk-quota: 1024M
+    requires:
+      # Resources extracted from CAP configuration
+      - name: master-db
+      - name: master-partners-vendors-auth
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
 
- # -------------------- SIDECAR MODULE ------------------------
- - name: master-partners-vendors-db-deployer
- # ------------------------------------------------------------
-   type: hdb
-   path: gen/db  
-   parameters:
-     buildpack: nodejs_buildpack
-   requires:
-    # 'hana' and 'xsuaa' resources extracted from CAP configuration
-    - name: master-db
+  # -------------------- SIDECAR MODULE ------------------------
+  - name: master-partners-vendors-db-deployer
+    # ------------------------------------------------------------
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      # 'hana' and 'xsuaa' resources extracted from CAP configuration
+      - name: master-db
 
+  - name: master-partners-vendors
+    type: approuter.nodejs
+    path: app/ # from cds.env.folders. Consider also cds.env.build.target -> gen/app
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: master-partners-vendors-auth
 
 resources:
- # services extracted from CAP configuration
- # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
- - name: master-db
-   type: org.cloudfoundry.existing-service
-   parameters:
-     service-name: master-db  
-
+  # services extracted from CAP configuration
+  # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
+  - name: master-db
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: master-db
+  - name: master-partners-vendors-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: master-partners-vendors-${org}-${space}
+        tenant-mode: dedicated
