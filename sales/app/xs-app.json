@@ -1,5 +1,5 @@
 {
-  "welcomeFile": "/odata/v4/master-partner-vendor/Vendors?$expand=customer",
+  "welcomeFile": "/odata/v4/sales/Orders?$expand=customer",
   "routes": [
     {
       "source": "^/app/(.*)$",

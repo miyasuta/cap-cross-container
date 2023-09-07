@@ -8,70 +8,93 @@ version: 1.0.0
 description: "A simple CAP project."
 parameters:
   enable-parallel-deployments: true
-   
+
 build-parameters:
   before-all:
-   - builder: custom
-     commands:
-      - npm install --production
-      - npx -p @sap/cds-dk cds build --production
+    - builder: custom
+      commands:
+        - npm install --production
+        - npx -p @sap/cds-dk cds build --production
 
 modules:
- # --------------------- SERVER MODULE ------------------------
- - name: sales-srv
- # ------------------------------------------------------------
-   type: nodejs
-   path: gen/srv  
-   parameters:
-     buildpack: nodejs_buildpack
-     memory: 256M
-     disk-quota: 1024M      
-   requires:
-    # Resources extracted from CAP configuration
-    - name: sales-db
-    # - name: master-db
-   provides:
-    - name: srv-api      # required by consumers of CAP services (e.g. approuter)
-      properties:
-        srv-url: ${default-url}
+  # --------------------- SERVER MODULE ------------------------
+  - name: sales-srv
+    # ------------------------------------------------------------
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      memory: 256M
+      disk-quota: 1024M
+    requires:
+      # Resources extracted from CAP configuration
+      - name: sales-db
+      - name: sales-auth
+      # - name: master-db
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
 
- # -------------------- SIDECAR MODULE ------------------------
- - name: sales-db-deployer
- # ------------------------------------------------------------
-   type: hdb
-   path: gen/db  
-   parameters:
-     buildpack: nodejs_buildpack   
-   requires:
-    # 'hana' and 'xsuaa' resources extracted from CAP configuration
-    - name: sales-db
-      properties: 
-        TARGET_CONTAINER: ~{hdi-service-name} 
-    - name: master-db
-      group: SERVICE_REPLACEMENTS
-      properties:
-        key: master-db-hdi
-        service: ~{master-db-hdi}    
+  # -------------------- SIDECAR MODULE ------------------------
+  - name: sales-db-deployer
+    # ------------------------------------------------------------
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      # 'hana' and 'xsuaa' resources extracted from CAP configuration
+      - name: sales-db
+        properties:
+          TARGET_CONTAINER: ~{hdi-service-name}
+      - name: master-db
+        group: SERVICE_REPLACEMENTS
+        properties:
+          key: master-db-hdi
+          service: ~{master-db-hdi}
 
+  - name: sales
+    type: approuter.nodejs
+    path: app/ # from cds.env.folders. Consider also cds.env.build.target -> gen/app
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: sales-auth
 
 resources:
- # services extracted from CAP configuration
- # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
-# ------------------------------------------------------------
- - name: sales-db
-# ------------------------------------------------------------
-   type: com.sap.xs.hdi-container
-   parameters:
-     service: hana  # or 'hanatrial' on trial landscapes
-     service-plan: hdi-shared
-   properties:
-     hdi-service-name: ${service-name}
+  # services extracted from CAP configuration
+  # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
+  # ------------------------------------------------------------
+  - name: sales-db
+    # ------------------------------------------------------------
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana # or 'hanatrial' on trial landscapes
+      service-plan: hdi-shared
+    properties:
+      hdi-service-name: ${service-name}
 
- - name: master-db
-   type: org.cloudfoundry.existing-service
-   parameters:
-     service-name: master-db   
-   properties:
-      master-db-hdi: ${service-name}          
-
-
+  - name: master-db
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: master-db
+    properties:
+      master-db-hdi: ${service-name}
+  - name: sales-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: sales-${org}-${space}
+        tenant-mode: dedicated

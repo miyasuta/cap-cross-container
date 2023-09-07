@@ -1,5 +1,5 @@
 {
-  "welcomeFile": "odata/v4/accounting/$metadata",
+  "welcomeFile": "odata/v4/accounting/Invoices?$expand=customer",
   "routes": [
     {
       "source": "^/app/(.*)$",
