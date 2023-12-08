@@ -5,3 +5,7 @@ entity Customers {
     name: String;
     additionalProperty: String;
 }
+entity Suppliers {
+    key ID: Integer;
+    name: String;
+}

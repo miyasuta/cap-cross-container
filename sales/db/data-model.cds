@@ -12,3 +12,9 @@ entity Customers {
     name: String;
 }
 
+@cds.persistence.exists
+entity Suppliers {
+    key ID: Integer;
+    name: String;
+}
+

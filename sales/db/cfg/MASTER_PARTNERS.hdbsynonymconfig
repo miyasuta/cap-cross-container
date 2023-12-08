@@ -4,5 +4,11 @@
             "object": "MASTER_PARTNERS_CUSTOMERS",
             "schema.configure": "master-db-hdi/schema"
         }
+    },
+    "SALES_SUPPLIERS": {
+        "target": {
+            "object": "MASTER_PARTNERS_SUPPLIERS",
+            "schema.configure": "master-db-hdi/schema"
+        }
     }
 }

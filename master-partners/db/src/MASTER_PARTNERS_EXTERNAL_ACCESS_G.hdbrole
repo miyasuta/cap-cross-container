@@ -7,7 +7,13 @@
                 "type":"TABLE", 
                 "privileges":[], 
                 "privileges_with_grant_option":["SELECT"]
-            }                          
+            },
+            { 
+                "name":"MASTER_PARTNERS_SUPPLIERS", 
+                "type":"TABLE", 
+                "privileges":[], 
+                "privileges_with_grant_option":["SELECT"]
+            }                           
         ]
     }
 }
