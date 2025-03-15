@@ -1,5 +1,5 @@
 [
-  "src/gen/**/*.hdbview",
+  "src/gen/**/MasterPartnerVendorService.Vendors.hdbview",
   "src/gen/**/*.hdbindex",
   "src/gen/**/*.hdbconstraint"
 ]
