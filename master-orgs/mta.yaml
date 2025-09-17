@@ -46,22 +46,6 @@ modules:
       # 'hana' and 'xsuaa' resources extracted from CAP configuration
       - name: master-db
 
-  - name: master-orgs
-    type: approuter.nodejs
-    path: app/ # from cds.env.folders. Consider also cds.env.build.target -> gen/app
-    parameters:
-      keep-existing-routes: true
-      disk-quota: 256M
-      memory: 256M
-    requires:
-      - name: srv-api
-        group: destinations
-        properties:
-          name: srv-api # must be used in xs-app.json as well
-          url: ~{srv-url}
-          forwardAuthToken: true
-      - name: master-orgs-auth
-
 resources:
   - name: master-db
     type: org.cloudfoundry.existing-service
