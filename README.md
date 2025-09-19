@@ -74,25 +74,70 @@ cds up
 ``` 
 
 ## 2. Verify Services are Running
-### 2.1. master-partners-vendors 
+### 2.1. master-partners
+```
+<path-to-service>/odata/v4/master-partners/Customers
+```
+
+### 2.2. master-partners-vendors
 ```
 <path-to-service>/odata/v4/master-partner-vendor/Vendors?$expand=customer
 ```
 
-### 2.2. master-orgs
+### 2.3. master-orgs
 ```
 <path-to-service>/odata/v4/master-orgs/Plants?$expand=customer
 ```
 
-### 2.3. sales
+### 2.4. sales
 ```
 <path-to-service>/odata/v4/sales/Orders?$expand=customer
 ```
 
-### 2.4. accounting
+### 2.5. accounting
 ```
 <path-to-service>/odata/v4/accounting/Invoices?$expand=customer
 ```
 
+## 3. Running Locally
 
+### 3.1. master-partners
+```
+cd master-partners
+cds bind -2 master-db
+cds watch --profile hybrid
+```
+Access: http://localhost:4004/odata/v4/master-partners/Customers
+
+### 3.2. master-partners-vendors
+```
+cd master-partners-vendors
+cds bind -2 master-db
+cds watch --profile hybrid
+```
+Access: http://localhost:4004/odata/v4/master-partner-vendor/Vendors?$expand=customer
+
+### 3.3. master-orgs
+```
+cd master-orgs
+cds bind -2 master-db
+cds watch --profile hybrid
+```
+Access: http://localhost:4004/odata/v4/master-orgs/Plants?$expand=customer
+
+### 3.4. sales
+```
+cd sales
+cds bind -2 sales-db
+cds watch --profile hybrid
+```
+Access: http://localhost:4004/odata/v4/sales/Orders?$expand=customer
+
+### 3.5. accounting
+```
+cd accounting
+cds bind -2 accounting-db
+cds watch --profile hybrid
+```
+Access: http://localhost:4004/odata/v4/accounting/Invoices?$expand=customer
 
