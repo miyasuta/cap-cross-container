@@ -57,6 +57,8 @@ resources:
     parameters:
       service: hana # or 'hanatrial' on trial landscapes
       service-plan: hdi-shared
+      config:
+        schema: MASTER_DB
     properties:
       hdi-service-name: ${service-name}
   - name: master-partners-auth

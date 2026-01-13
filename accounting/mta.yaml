@@ -49,10 +49,10 @@ modules:
         properties:
           TARGET_CONTAINER: ~{hdi-service-name}
       - name: ups-master-db
-        group: SERVICE_REPLACEMENTS
-        properties:
-          key: cross-schema-ups
-          service: ~{cross-schema-ups}
+        # group: SERVICE_REPLACEMENTS
+        # properties:
+        #   key: cross-schema-ups
+        #   service: ~{cross-schema-ups}
 
 resources:
   # services extracted from CAP configuration
@@ -71,8 +71,8 @@ resources:
     type: org.cloudfoundry.existing-service
     parameters:
       service-name: ups-master-db
-    properties:
-      cross-schema-ups: ${service-name}
+    # properties:
+    #   cross-schema-ups: ${service-name}
   - name: accounting-auth
     type: org.cloudfoundry.managed-service
     parameters:
