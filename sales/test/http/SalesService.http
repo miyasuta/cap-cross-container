@@ -1,0 +1,12 @@
+@server=http://localhost:58181
+@username=alice
+@password=
+
+
+### getCustomerNumber
+# @name getCustomerNumber_POST
+POST {{server}}/odata/v4/sales/getCustomerNumber
+Content-Type: application/json
+Authorization: Basic {{username}}:{{password}}
+
+{}

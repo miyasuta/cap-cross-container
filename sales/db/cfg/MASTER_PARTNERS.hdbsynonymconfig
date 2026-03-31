@@ -4,5 +4,11 @@
             "object": "MASTER_PARTNERS_CUSTOMERS",
             "schema.configure": "master-db-hdi/schema"
         }
+    },
+    "CUSTOMER_ID": {
+        "target": {
+            "object": "CUSTOMER_ID",
+            "schema.configure": "master-db-hdi/schema"
+        }
     }
 }
