@@ -43,19 +43,20 @@ modules:
     path: gen/db
     parameters:
       buildpack: nodejs_buildpack
+    properties:
+      HDI_DEPLOY_OPTIONS: >
+        {
+          "exclude_filter": [
+            "cfg/*.hdbsynonymconfig",
+            "src/*.hdbgrants",
+            "src/*.hdbsynonym"
+          ]
+        }
     requires:
       # 'hana' and 'xsuaa' resources extracted from CAP configuration
       - name: sales-db
         properties:
           TARGET_CONTAINER: ~{hdi-service-name}
-          HDI_DEPLOY_OPTIONS: >
-            {
-              "exclude_filter": [
-                "cfg/*.hdbsynonymconfig",
-                "src/*.hdbgrants",
-                "src/*.hdbsynonym"
-              ]
-            }
       # - name: master-db
       #   group: SERVICE_REPLACEMENTS
       #   properties:

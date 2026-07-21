@@ -6,9 +6,9 @@ entity Orders {
     customer: Association to Customers;
 }
 
-@cds.persistence.exists
+// @cds.persistence.exists
+@cds.persistence.skip
 entity Customers {
     key ID: Integer;
     name: String;
 }
-
