@@ -48,11 +48,19 @@ modules:
       - name: sales-db
         properties:
           TARGET_CONTAINER: ~{hdi-service-name}
-      - name: master-db
-        group: SERVICE_REPLACEMENTS
-        properties:
-          key: master-db-hdi
-          service: ~{master-db-hdi}
+          HDI_DEPLOY_OPTIONS: >
+            {
+              "exclude_filter": [
+                "cfg/*.hdbsynonymconfig",
+                "src/*.hdbgrants",
+                "src/*.hdbsynonym"
+              ]
+            }
+      # - name: master-db
+      #   group: SERVICE_REPLACEMENTS
+      #   properties:
+      #     key: master-db-hdi
+      #     service: ~{master-db-hdi}
 
 resources:
   # services extracted from CAP configuration
@@ -67,12 +75,12 @@ resources:
     properties:
       hdi-service-name: ${service-name}
 
-  - name: master-db
-    type: org.cloudfoundry.existing-service
-    parameters:
-      service-name: master-db
-    properties:
-      master-db-hdi: ${service-name}
+  # - name: master-db
+  #   type: org.cloudfoundry.existing-service
+  #   parameters:
+  #     service-name: master-db
+  #   properties:
+  #     master-db-hdi: ${service-name}
   - name: sales-auth
     type: org.cloudfoundry.managed-service
     parameters:
